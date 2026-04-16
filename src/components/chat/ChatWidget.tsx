@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { MessageCircle, X, Send, Bot, User, Crown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Progress } from '@/components/ui/progress';
 import MessageBubble from './MessageBubble';
 import QuickPrompts from './QuickPrompts';
 
@@ -12,6 +13,10 @@ interface Message {
   isUser: boolean;
   timestamp: Date;
 }
+
+// Mock premium status - replace with actual auth logic later
+const isPremium = false;
+const FREE_MESSAGE_LIMIT = 10;
 
 const mockResponses = {
   'study motivation': [
@@ -71,21 +76,37 @@ export default function ChatWidget() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToBottom = () => {
+  // Track user message count for limits
+  const userMessageCount = messages.filter(msg => msg.isUser).length;
+  const hasReachedLimit = !isPremium && userMessageCount >= FREE_MESSAGE_LIMIT;
+  const usagePercentage = isPremium ? 0 : (userMessageCount / FREE_MESSAGE_LIMIT) * 100;
+
+  // Auto-scroll to bottom when new messages arrive
+  const scrollToBottom = useCallback(() => {
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
       if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        // Use requestAnimationFrame for smooth scrolling
+        requestAnimationFrame(() => {
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        });
       }
     }
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
+
+  // Focus input when chat opens
+  useEffect(() => {
+    if (isOpen && inputRef.current && !hasReachedLimit) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isOpen, hasReachedLimit]);
 
   const handleSendMessage = async (content: string) => {
-    if (!content.trim() || isLoading) return;
+    if (!content.trim() || isLoading || hasReachedLimit) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -112,14 +133,21 @@ export default function ChatWidget() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !hasReachedLimit) {
       e.preventDefault();
       handleSendMessage(inputValue);
     }
   };
 
   const handleQuickPrompt = (prompt: string) => {
-    handleSendMessage(prompt);
+    if (!hasReachedLimit) {
+      handleSendMessage(prompt);
+    }
+  };
+
+  const handleUpgrade = () => {
+    // TODO: Implement upgrade flow - redirect to pricing page or open modal
+    console.log('Upgrade to premium clicked');
   };
 
   return (
@@ -143,9 +171,10 @@ export default function ChatWidget() {
             onClick={() => setIsOpen(false)}
           />
 
-          <div className="relative w-full max-w-md h-[600px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          {/* Fixed height modal container */}
+          <div className="relative w-full max-w-md h-[600px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-600 to-purple-600 text-white flex-shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
                   <Bot className="h-4 w-4" />
@@ -155,66 +184,120 @@ export default function ChatWidget() {
                   <p className="text-xs opacity-90">Your personal growth assistant</p>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="h-8 w-8 p-0 text-white hover:bg-white/20"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Messages */}
-            <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
-              <div className="space-y-4">
-                {messages.map((message) => (
-                  <MessageBubble key={message.id} message={message} />
-                ))}
-
-                {isLoading && (
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600">
-                      <Bot className="h-4 w-4 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="rounded-2xl rounded-tl-md bg-gray-100 dark:bg-gray-800 p-3">
-                        <div className="flex space-x-1">
-                          <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                          <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                          <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                        </div>
-                      </div>
-                    </div>
+              <div className="flex items-center gap-2">
+                {isPremium && (
+                  <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded-full">
+                    <Crown className="h-3 w-3" />
+                    <span className="text-xs font-medium">Premium</span>
                   </div>
                 )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsOpen(false)}
+                  className="h-8 w-8 p-0 text-white hover:bg-white/20"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-            </ScrollArea>
+            </div>
 
-            {/* Quick Prompts */}
-            {messages.length === 1 && !isLoading && (
-              <div className="px-4 pb-2">
-                <QuickPrompts onPromptSelect={handleQuickPrompt} />
+            {/* Usage Indicator - Only show for free users */}
+            {!isPremium && (
+              <div className="px-4 py-2 bg-orange-50 dark:bg-orange-950/20 border-b border-orange-200 dark:border-orange-800 flex-shrink-0">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-orange-800 dark:text-orange-200">
+                    {userMessageCount} / {FREE_MESSAGE_LIMIT} Free Messages Used
+                  </span>
+                  {hasReachedLimit && (
+                    <div className="flex items-center gap-1 text-orange-600 dark:text-orange-400">
+                      <Zap className="h-3 w-3" />
+                      <span className="text-xs font-medium">Limit Reached</span>
+                    </div>
+                  )}
+                </div>
+                <Progress
+                  value={usagePercentage}
+                  className="h-1.5 bg-orange-200 dark:bg-orange-800"
+                  // Custom progress bar styling for warning state
+                  style={{
+                    '--progress-background': hasReachedLimit ? '#dc2626' : '#f97316'
+                  } as React.CSSProperties}
+                />
               </div>
             )}
 
-            {/* Input */}
-            <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            {/* Messages Area - Fixed height with scrolling */}
+            <div className="flex-1 min-h-0 flex flex-col">
+              <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
+                <div className="space-y-4 pb-4">
+                  {messages.map((message) => (
+                    <MessageBubble key={message.id} message={message} />
+                  ))}
+
+                  {isLoading && (
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600">
+                        <Bot className="h-4 w-4 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="rounded-2xl rounded-tl-md bg-gray-100 dark:bg-gray-800 p-3">
+                          <div className="flex space-x-1">
+                            <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                            <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                            <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
+
+              {/* Quick Prompts - Only show if not at limit and no messages yet */}
+              {messages.length === 1 && !isLoading && !hasReachedLimit && (
+                <div className="px-4 pb-2 flex-shrink-0">
+                  <QuickPrompts onPromptSelect={handleQuickPrompt} />
+                </div>
+              )}
+
+              {/* Limit Reached Message */}
+              {hasReachedLimit && (
+                <div className="px-4 pb-4 flex-shrink-0">
+                  <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4">
+                    <p className="text-sm text-orange-800 dark:text-orange-200 mb-3">
+                      You've reached your free AI assistant limit. Upgrade to Premium for unlimited mentoring.
+                    </p>
+                    <Button
+                      onClick={handleUpgrade}
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                      size="sm"
+                    >
+                      <Crown className="h-4 w-4 mr-2" />
+                      Upgrade to Premium
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input Area - Fixed at bottom */}
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex-shrink-0">
               <div className="flex gap-2">
                 <Input
                   ref={inputRef}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ask me anything..."
-                  disabled={isLoading}
-                  className="flex-1"
+                  placeholder={hasReachedLimit ? "Upgrade to continue chatting..." : "Ask me anything..."}
+                  disabled={isLoading || hasReachedLimit}
+                  className={`flex-1 ${hasReachedLimit ? 'opacity-50 cursor-not-allowed' : ''}`}
                 />
                 <Button
                   onClick={() => handleSendMessage(inputValue)}
-                  disabled={!inputValue.trim() || isLoading}
+                  disabled={!inputValue.trim() || isLoading || hasReachedLimit}
                   size="sm"
-                  className="px-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className={`px-3 ${hasReachedLimit ? 'opacity-50 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'}`}
                 >
                   <Send className="h-4 w-4" />
                 </Button>
