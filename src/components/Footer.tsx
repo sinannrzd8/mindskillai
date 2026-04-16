@@ -15,7 +15,7 @@ export default function Footer() {
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">Learning that understands you. AI-powered adaptive education with emotional intelligence.</p>
             <div className="mt-4 flex gap-3">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
+              {[Globe, Briefcase, Code].map((Icon, i) => (
                 <a key={i} href="#" className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground">
                   <Icon className="h-4 w-4" />
                 </a>
