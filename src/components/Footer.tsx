@@ -1,4 +1,4 @@
-import { Brain, Twitter, Linkedin, Github } from "lucide-react";
+import { Brain, Globe, Briefcase, Code } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
