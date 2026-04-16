@@ -16,7 +16,7 @@ interface Message {
 
 // Mock premium status - replace with actual auth logic later
 const isPremium = false;
-const FREE_MESSAGE_LIMIT = 10;
+const FREE_MESSAGE_LIMIT = 30;
 
 const mockResponses = {
   'study motivation': [
