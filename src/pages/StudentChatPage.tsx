@@ -37,30 +37,35 @@ export default function StudentChatPage() {
 
   // Mock chat rooms - in production, fetch from API
   useEffect(() => {
-    if (user?.courseId) {
-      // Get all students in the same course
-      const courseStudents = mockDatabase.getUsersByRole('student')
-        .filter(student => student.courseId === user.courseId && student.id !== user.id);
+    const loadChatRooms = async () => {
+      if (user?.courseId) {
+        // Get all students in the same course
+        const allStudents = await mockDatabase.getUsersByRole('student');
+        const courseStudents = allStudents
+          .filter(student => student.courseId === user.courseId && student.id !== user.id);
 
-      const rooms: ChatRoom[] = [
-        {
-          id: 'general',
-          name: `${user.courseId} General Chat`,
-          participants: courseStudents.map(s => s.id),
-          unreadCount: 0
-        },
-        // Individual chats with other students
-        ...courseStudents.map(student => ({
-          id: `private_${student.id}`,
-          name: student.fullName,
-          participants: [student.id],
-          unreadCount: Math.floor(Math.random() * 3) // Mock unread count
-        }))
-      ];
+        const rooms: ChatRoom[] = [
+          {
+            id: 'general',
+            name: `${user.courseId} General Chat`,
+            participants: courseStudents.map(s => s.id),
+            unreadCount: 0
+          },
+          // Individual chats with other students
+          ...courseStudents.map(student => ({
+            id: `private_${student.id}`,
+            name: student.fullName,
+            participants: [student.id],
+            unreadCount: Math.floor(Math.random() * 3) // Mock unread count
+          }))
+        ];
 
-      setChatRooms(rooms);
-      setSelectedRoom('general');
-    }
+        setChatRooms(rooms);
+        setSelectedRoom('general');
+      }
+    };
+    
+    loadChatRooms();
   }, [user]);
 
   // Load messages for selected room

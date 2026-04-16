@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect } from 'react';
-import { Calendar, Clock, User, Plus, Video, CheckCircle } from 'lucide-react';
+import { Calendar, Clock, UserIcon, Plus, Video, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -64,8 +64,7 @@ export default function StudentMeetingsPage() {
       scheduledDate: scheduledDateTime,
       duration: parseInt(duration, 10),
       status: 'pending',
-      notes,
-      createdAt: new Date()
+      notes
     });
 
     setSessions((prev) => [session, ...prev]);
@@ -288,7 +287,7 @@ export default function StudentMeetingsPage() {
                       <p className="text-sm text-muted-foreground mb-3"><strong>Notes:</strong> {meeting.notes}</p>
                     )}
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <User className="h-4 w-4" />
+                      <UserIcon className="h-4 w-4" />
                       Awaiting teacher approval
                     </div>
                   </div>

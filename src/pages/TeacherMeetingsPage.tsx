@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, User, CheckCircle, XCircle, Plus, Video } from 'lucide-react';
+import { Calendar, Clock, UserIcon, CheckCircle, XCircle, Plus, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -27,6 +27,7 @@ interface Meeting {
 export default function TeacherMeetingsPage() {
   const { user } = useAuth();
   const [meetings, setMeetings] = useState<Meeting[]>([]);
+  const [teacherStudents, setTeacherStudents] = useState<any[]>([]);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState('');
   const [meetingTopic, setMeetingTopic] = useState('');
@@ -36,38 +37,42 @@ export default function TeacherMeetingsPage() {
 
   // Mock meetings data - in production, fetch from API
   useEffect(() => {
-    if (user) {
-      const mockMeetings: Meeting[] = [
-        {
-          id: '1',
-          studentId: 'student1',
-          studentName: 'Alice Johnson',
-          teacherId: user.id,
-          teacherName: user.fullName,
-          scheduledDate: new Date(Date.now() + 86400000), // Tomorrow
-          duration: 30,
-          status: 'pending',
-          topic: 'Career Guidance Session'
-        },
-        {
-          id: '2',
-          studentId: 'student2',
-          studentName: 'Bob Smith',
-          teacherId: user.id,
-          teacherName: user.fullName,
-          scheduledDate: new Date(Date.now() + 172800000), // Day after tomorrow
-          duration: 45,
-          status: 'approved',
-          topic: 'Project Review',
-          meetingLink: 'https://meet.google.com/abc-defg-hij'
-        }
-      ];
-      setMeetings(mockMeetings);
-    }
-  }, [user]);
+    const loadData = async () => {
+      if (user) {
+        const mockMeetings: Meeting[] = [
+          {
+            id: '1',
+            studentId: 'student1',
+            studentName: 'Alice Johnson',
+            teacherId: user.id,
+            teacherName: user.fullName,
+            scheduledDate: new Date(Date.now() + 86400000), // Tomorrow
+            duration: 30,
+            status: 'pending',
+            topic: 'Career Guidance Session'
+          },
+          {
+            id: '2',
+            studentId: 'student2',
+            studentName: 'Bob Smith',
+            teacherId: user.id,
+            teacherName: user.fullName,
+            scheduledDate: new Date(Date.now() + 172800000), // Day after tomorrow
+            duration: 45,
+            status: 'approved',
+            topic: 'Project Review',
+            meetingLink: 'https://meet.google.com/abc-defg-hij'
+          }
+        ];
+        setMeetings(mockMeetings);
 
-  // Get students for the teacher's courses
-  const teacherStudents = mockDatabase.getUsersByRole('student');
+        // Get students for the teacher's courses
+        const students = await mockDatabase.getUsersByRole('student');
+        setTeacherStudents(students);
+      }
+    };
+    loadData();
+  }, [user]);
 
   const handleApproveMeeting = (meetingId: string) => {
     setMeetings(prev =>
