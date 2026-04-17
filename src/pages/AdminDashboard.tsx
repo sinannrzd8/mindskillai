@@ -86,23 +86,23 @@ export default function AdminDashboard() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
-          <Card className="border border-border/70">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Users className="h-5 w-5" /> Total Users</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-semibold">{teachers.length + students.length}</div>
-              <p className="text-sm text-muted-foreground mt-1">Count of all active teachers and students.</p>
+              <div className="text-4xl font-bold font-display">{teachers.length + students.length}</div>
+              <p className="text-sm text-muted-foreground mt-2">Count of all active teachers and students.</p>
             </CardContent>
           </Card>
 
-          <Card className="border border-border/70">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Award className="h-5 w-5" /> Teacher Rating</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-3">
-                <span className="text-4xl font-semibold">{averageTeacherRating.toFixed(1)}</span>
+              <div className="flex items-center gap-4">
+                <span className="text-4xl font-bold font-display">{averageTeacherRating.toFixed(1)}</span>
                 <div className="flex items-center gap-2">
                   <RatingStars rating={averageTeacherRating} />
                   <span className="text-sm text-muted-foreground">avg</span>
@@ -112,12 +112,12 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="border border-border/70">
+          <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Active Teachers</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Users className="h-5 w-5" /> All Teachers</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-semibold">{teachers.length}</div>
+              <div className="text-4xl font-bold font-display">{teachers.length}</div>
               <p className="text-sm text-muted-foreground mt-1">Profiles with full mentorship access.</p>
             </CardContent>
           </Card>
@@ -134,7 +134,7 @@ export default function AdminDashboard() {
               ) : (
                 <div className="space-y-4">
                   {filteredTeachers.map((teacher) => (
-                    <div key={teacher.id} className="grid gap-4 rounded-3xl border border-border/50 p-4 md:grid-cols-[1fr_auto]">
+                    <div key={teacher.id} className="grid gap-4 rounded-lg border border-border p-4 md:grid-cols-[1fr_auto]">
                       <div>
                         <div className="flex items-center gap-3">
                           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary font-semibold">{teacher.fullName.split(' ').map((segment) => segment[0]).join('')}</div>
@@ -144,7 +144,7 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                          <span className="rounded-full border border-border/70 px-2 py-1">{teacher.role}</span>
+                          <span className="rounded-full border border-border px-2 py-1">{teacher.role}</span>
                           {teacher.skills?.map(skill => (
                             <span key={skill} className="rounded-full bg-muted/60 px-2 py-1">{skill}</span>
                           ))}
@@ -173,7 +173,7 @@ export default function AdminDashboard() {
                 <p className="text-muted-foreground">No students match your search.</p>
               ) : (
                 filteredStudents.map(student => (
-                  <div key={student.id} className="rounded-3xl border border-border/50 p-4">
+                  <div key={student.id} className="rounded-lg border border-border p-4">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary font-semibold">{student.fullName.split(' ').map(segment => segment[0]).join('')}</div>

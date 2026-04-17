@@ -52,16 +52,16 @@ export default function DashboardPage() {
             { icon: Flame, label: "Learning Streak", value: "14", suffix: "days", trend: "+2", up: true, color: "bg-chart-orange/10 text-chart-orange" },
             { icon: Star, label: "Total XP", value: "4,250", suffix: "pts", trend: "+380", up: true, color: "bg-chart-purple/10 text-chart-purple" },
           ].map((c) => (
-            <div key={c.label} className="glass-card hover-lift rounded-2xl p-5">
-              <div className="flex items-center justify-between mb-3">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${c.color}`}><c.icon className="h-5 w-5" /></div>
-                <span className={`flex items-center text-xs font-medium ${c.up ? "text-chart-green" : "text-destructive"}`}>
-                  {c.up ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+            <div key={c.label} className="glass-card hover-lift rounded-lg p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${c.color}`}><c.icon className="h-5 w-5" /></div>
+                <span className={`flex items-center gap-1 text-xs font-semibold ${c.up ? "text-chart-green" : "text-destructive"}`}>
+                  {c.up ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
                   {c.trend}
                 </span>
               </div>
-              <p className="text-2xl font-extrabold font-display">{c.value}<span className="text-sm font-normal text-muted-foreground ml-1">{c.suffix}</span></p>
-              <p className="text-xs text-muted-foreground mt-0.5">{c.label}</p>
+              <p className="text-2xl font-bold font-display">{c.value}<span className="text-xs font-normal text-muted-foreground ml-2">{c.suffix}</span></p>
+              <p className="text-xs text-muted-foreground mt-1">{c.label}</p>
             </div>
           ))}
         </div>

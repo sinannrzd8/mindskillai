@@ -56,7 +56,7 @@ export default function EmployerDashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-border/50">
+                <tr className="border-b border-border">
                   {["Candidate", "Readiness", "Technical", "Soft Skills", "Reliability", "Resilience", "Certs", "Actions"].map((h) => (
                     <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{h}</th>
                   ))}

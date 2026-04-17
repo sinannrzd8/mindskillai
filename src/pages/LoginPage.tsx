@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Brain, Sparkles, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
@@ -107,31 +108,29 @@ export default function LoginPage() {
           </div>
 
           {isSignUp && (
-            <input
+            <Input
               type="text"
               placeholder="Full Name"
               value={formData.fullName}
               onChange={(e) => handleInputChange('fullName', e.target.value)}
-              className="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all"
               disabled={isSubmitting}
             />
           )}
-          <input
+          <Input
             type="email"
             placeholder="Email address"
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
-            className="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all"
             disabled={isSubmitting}
           />
           <div className="relative">
-            <input
+            <Input
               type={showPass ? "text" : "password"}
               placeholder="Password"
               value={formData.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
-              className="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all pr-10"
               disabled={isSubmitting}
+              className="pr-10"
             />
             <button
               type="button"

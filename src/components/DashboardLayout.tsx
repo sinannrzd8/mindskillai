@@ -49,7 +49,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <aside className="hidden w-64 flex-col border-r border-border/50 bg-card/50 p-4 md:flex">
+      <aside className="hidden w-64 flex-col border-r border-border bg-card/50 p-4 md:flex">
         <Link to="/" className="flex items-center gap-2 mb-8 px-2">
           <div className="gradient-bg flex h-8 w-8 items-center justify-center rounded-lg">
             <Brain className="h-4 w-4 text-primary-foreground" />

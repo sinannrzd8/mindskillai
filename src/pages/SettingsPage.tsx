@@ -62,21 +62,21 @@ export default function SettingsPage() {
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-3xl border border-border/50 bg-muted/50 p-4 text-center">
+              <div className="rounded-lg border border-border bg-muted/50 p-4 text-center">
                 <p className="text-sm text-muted-foreground">Rating</p>
                 <p className="mt-2 text-2xl font-semibold">{rating.toFixed(1)}</p>
               </div>
-              <div className="rounded-3xl border border-border/50 bg-muted/50 p-4 text-center">
+              <div className="rounded-lg border border-border bg-muted/50 p-4 text-center">
                 <p className="text-sm text-muted-foreground">Reviews</p>
                 <p className="mt-2 text-2xl font-semibold">{reviews}</p>
               </div>
-              <div className="rounded-3xl border border-border/50 bg-muted/50 p-4 text-center">
+              <div className="rounded-lg border border-border bg-muted/50 p-4 text-center">
                 <p className="text-sm text-muted-foreground">Profile</p>
                 <p className="mt-2 text-2xl font-semibold">{user?.role === 'teacher' ? 'Mentor' : 'Learner'}</p>
               </div>
             </div>
 
-            <div className="mt-6 rounded-3xl border border-border/50 bg-card/50 p-5">
+            <div className="mt-6 rounded-lg border border-border bg-card/50 p-5">
               <h3 className="font-semibold">About</h3>
               <p className="mt-2 text-sm text-muted-foreground">{user?.bio || 'A dedicated member of the MindSkill AI community.'}</p>
             </div>

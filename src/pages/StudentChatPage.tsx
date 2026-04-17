@@ -144,10 +144,10 @@ export default function StudentChatPage() {
 
   return (
     <DashboardLayout>
-      <div className="flex h-full">
-        {/* Chat Rooms Sidebar */}
-        <div className="w-80 border-r border-border/50 bg-card/50">
-          <div className="p-4 border-b border-border/50">
+      <div className="flex h-full gap-4">
+        {/* Chat Rooms Sidebar - Hidden on mobile */}
+        <div className="hidden lg:block lg:w-72 border-r border-border bg-card/50 flex-shrink-0">
+          <div className="p-4 border-b border-border">
             <h2 className="font-semibold mb-3">Student Communications</h2>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -206,7 +206,7 @@ export default function StudentChatPage() {
           {selectedRoom ? (
             <>
               {/* Chat Header */}
-              <div className="p-4 border-b border-border/50 bg-card/50">
+              <div className="p-4 border-b border-border bg-card/50">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src="" />
@@ -268,7 +268,7 @@ export default function StudentChatPage() {
               </ScrollArea>
 
               {/* Message Input */}
-              <div className="p-4 border-t border-border/50 bg-card/50">
+              <div className="p-4 border-t border-border bg-card/50">
                 <div className="flex gap-2">
                   <Input
                     value={newMessage}

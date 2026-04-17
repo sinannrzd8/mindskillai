@@ -50,7 +50,7 @@ export default function TeacherDashboard() {
               <CardTitle className="flex items-center gap-2"><Users className="h-5 w-5" /> Current Students</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-4xl font-semibold">{sessions.length}</p>
+              <p className="text-4xl font-bold font-display">{sessions.length}</p>
               <p className="text-sm text-muted-foreground mt-1">Active session records assigned to you.</p>
             </CardContent>
           </Card>
@@ -98,7 +98,7 @@ export default function TeacherDashboard() {
               <p className="text-muted-foreground">No sessions assigned yet.</p>
             ) : (
               sessions.slice(0, 4).map(session => (
-                <div key={session.id} className="grid gap-4 rounded-3xl border border-border/50 p-4 md:grid-cols-[1fr_auto]">
+                <div key={session.id} className="grid gap-4 rounded-lg border border-border p-4 md:grid-cols-[1fr_auto]">
                   <div>
                     <p className="font-semibold">{session.topic}</p>
                     <p className="text-xs text-muted-foreground">{new Date(session.scheduledDate).toLocaleString()}</p>

@@ -97,7 +97,6 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
-    border-radius: var(--radius);
   }
 
   .gradient-text {
@@ -148,6 +147,23 @@
   .stagger-3 { animation-delay: 0.3s; }
   .stagger-4 { animation-delay: 0.4s; }
   .stagger-5 { animation-delay: 0.5s; }
+
+  /* Icon sizing utilities */
+  .icon-sm { @apply h-3 w-3; }
+  .icon-base { @apply h-4 w-4; }
+  .icon-lg { @apply h-5 w-5; }
+  .icon-xl { @apply h-6 w-6; }
+
+  /* Consistent spacing utilities */
+  .gap-xs { @apply gap-1; }
+  .gap-sm { @apply gap-2; }
+  .gap-md { @apply gap-3; }
+  .gap-lg { @apply gap-4; }
+
+  /* Focus states */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-0;
+  }
 }
 
 @keyframes float {
@@ -173,4 +189,22 @@
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }

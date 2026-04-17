@@ -73,7 +73,7 @@ export default function LandingPage() {
 
         {/* Dashboard Preview */}
         <div className="container mx-auto mt-16 px-4">
-          <div className="animate-fade-in-up stagger-5 mx-auto max-w-5xl rounded-2xl border border-border/50 bg-card/80 p-2 shadow-2xl backdrop-blur-sm">
+          <div className="animate-fade-in-up stagger-5 mx-auto max-w-5xl rounded-lg border border-border bg-card/80 p-2 shadow-lg backdrop-blur-sm">
             <div className="rounded-xl bg-muted/50 p-6 md:p-8">
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="glass-card rounded-xl p-5">
@@ -104,7 +104,7 @@ export default function LandingPage() {
       </section>
 
       {/* Social Proof Logos */}
-      <section className="border-y border-border/50 py-10 bg-card/50">
+      <section className="border-y border-border py-10 bg-card/50">
         <div className="container mx-auto px-4">
           <p className="text-center text-sm text-muted-foreground mb-6">Trusted by learners at leading companies</p>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14">
