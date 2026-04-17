@@ -4,8 +4,10 @@ import { Brain, Sparkles, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,7 +45,7 @@ export default function LoginPage() {
         if (result.success) {
           navigate(from, { replace: true });
         } else {
-          setError(result.error || 'Registration failed');
+          setError(result.error || t('auth.registrationFailed'));
         }
       } else {
         const result = await login(formData.email, formData.password);
@@ -51,11 +53,11 @@ export default function LoginPage() {
         if (result.success) {
           navigate(from, { replace: true });
         } else {
-          setError(result.error || 'Login failed');
+          setError(result.error || t('auth.loginFailed'));
         }
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError(t('auth.unexpectedError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -69,14 +71,14 @@ export default function LoginPage() {
           <div className="gradient-bg flex h-9 w-9 items-center justify-center rounded-xl">
             <Brain className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="font-display text-xl font-bold">MindSkill<span className="gradient-text">AI</span></span>
+          <span className="font-display text-xl font-bold">{t('common.appName')}<span className="gradient-text">{t('common.appNameBrand')}</span></span>
         </Link>
 
         <h1 className="font-display text-3xl font-extrabold mb-2">
-          {isSignUp ? "Create your account" : "Welcome back"}
+          {isSignUp ? t('auth.createAccount') : t('auth.welcomeBack')}
         </h1>
         <p className="text-muted-foreground mb-8">
-          {isSignUp ? "Start your adaptive learning journey." : "Continue your learning journey."}
+          {isSignUp ? t('auth.startJourney') : t('auth.continueJourney')}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4 max-w-sm">
@@ -98,19 +100,19 @@ export default function LoginPage() {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-            Continue with Google
+            {t('auth.continueWithGoogle')}
           </button>
 
           <div className="flex items-center gap-3">
             <div className="h-px flex-1 bg-border" />
-            <span className="text-xs text-muted-foreground">or</span>
+            <span className="text-xs text-muted-foreground">{t('auth.or')}</span>
             <div className="h-px flex-1 bg-border" />
           </div>
 
           {isSignUp && (
             <Input
               type="text"
-              placeholder="Full Name"
+              placeholder={t('auth.fullName')}
               value={formData.fullName}
               onChange={(e) => handleInputChange('fullName', e.target.value)}
               disabled={isSubmitting}
@@ -118,7 +120,7 @@ export default function LoginPage() {
           )}
           <Input
             type="email"
-            placeholder="Email address"
+            placeholder={t('auth.emailAddress')}
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
             disabled={isSubmitting}
@@ -126,7 +128,7 @@ export default function LoginPage() {
           <div className="relative">
             <Input
               type={showPass ? "text" : "password"}
-              placeholder="Password"
+              placeholder={t('auth.password')}
               value={formData.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
               disabled={isSubmitting}
@@ -152,11 +154,11 @@ export default function LoginPage() {
             {isSubmitting ? (
               <div className="flex items-center gap-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                {isSignUp ? "Creating Account..." : "Signing In..."}
+                {isSignUp ? t('auth.creatingAccount') : t('auth.signingIn')}
               </div>
             ) : (
               <>
-                <Sparkles className="h-4 w-4" /> {isSignUp ? "Create Account" : "Sign In"}
+                <Sparkles className="h-4 w-4" /> {isSignUp ? t('auth.createAccountBtn') : t('auth.signIn')}
               </>
             )}
           </Button>
@@ -172,18 +174,18 @@ export default function LoginPage() {
               className="text-sm text-primary hover:underline"
               disabled={isSubmitting}
             >
-              {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
+              {isSignUp ? t('auth.haveAccount') : t('auth.noAccount')}
             </button>
           </div>
         </form>
 
         {/* Predefined Credentials Info */}
         <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-xl">
-          <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2">Demo Credentials</h3>
+          <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2">{t('auth.demoCredentials')}</h3>
           <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-            <p><strong>Students:</strong> student1@webdev.mindskill.ai (webdev2024)</p>
-            <p><strong>Teachers:</strong> teacher1@mindskill.ai (teacher2024)</p>
-            <p><strong>Admins:</strong> admin@mindskill.ai (admin2024)</p>
+            <p><strong>{t('auth.students')}:</strong> {t('auth.demo1')}</p>
+            <p><strong>{t('auth.teachers')}:</strong> {t('auth.demo2')}</p>
+            <p><strong>{t('auth.admins')}:</strong> {t('auth.demo3')}</p>
           </div>
         </div>
       </div>
@@ -194,8 +196,8 @@ export default function LoginPage() {
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-primary-foreground/20 backdrop-blur-sm">
             <Brain className="h-10 w-10" />
           </div>
-          <h2 className="font-display text-3xl font-extrabold mb-4">Learning That Understands You</h2>
-          <p className="text-primary-foreground/80 leading-relaxed">AI-powered adaptive education that responds to your skills, emotions, and career goals in real-time.</p>
+          <h2 className="font-display text-3xl font-extrabold mb-4">{t('common.slogan')}</h2>
+          <p className="text-primary-foreground/80 leading-relaxed">{t('common.tagline')}</p>
         </div>
       </div>
     </div>

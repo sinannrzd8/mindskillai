@@ -4,12 +4,14 @@ import enTranslations from './locales/en.json';
 import trTranslations from './locales/tr.json';
 import ruTranslations from './locales/ru.json';
 import azTranslations from './locales/az.json';
+import deTranslations from './locales/de.json';
 
 export const SUPPORTED_LANGUAGES = {
   en: { name: 'English', flag: '🇬🇧', nativeName: 'English' },
   tr: { name: 'Turkish', flag: '🇹🇷', nativeName: 'Türkçe' },
   ru: { name: 'Russian', flag: '🇷🇺', nativeName: 'Русский' },
   az: { name: 'Azerbaijani', flag: '🇦🇿', nativeName: 'Azərbaycanca' },
+  de: { name: 'German', flag: '🇩🇪', nativeName: 'Deutsch' },
 };
 
 export const resources = {
@@ -17,6 +19,7 @@ export const resources = {
   tr: { translation: trTranslations },
   ru: { translation: ruTranslations },
   az: { translation: azTranslations },
+  de: { translation: deTranslations },
 };
 
 // Get saved language from localStorage or default to English

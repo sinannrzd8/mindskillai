@@ -166,5 +166,30 @@
     "loginFailed": "Daxil olmada yerinə yetirilib",
     "registrationFailed": "Qeydiyyat uğursuz oldu",
     "unexpectedError": "Gözlənilməz xəta baş verdi"
+  },
+  "footer": {
+    "tagline": "Sizi başa düşən öyrənmə. Emosional zəka ilə süni intellekt tərəfindən istifadə olunan adaptiv təhsil.",
+    "product": "Məhsul",
+    "features": "Xüsusiyyətlər",
+    "pricing": "Qiymətləndirmə",
+    "certifications": "Sertifikatlar",
+    "mentorship": "Mentorluq",
+    "enterprise": "Korporativ",
+    "company": "Şirkət",
+    "about": "Haqqında",
+    "careers": "Karyeralar",
+    "blog": "Bloq",
+    "press": "Mətbuat",
+    "contact": "Əlaqə",
+    "resources": "Resurslar",
+    "documentation": "Sənədləşdirmə",
+    "helpCenter": "Kömək Mərkəzi",
+    "community": "Cəmiyyət",
+    "api": "API",
+    "status": "Status",
+    "copyright": "© 2026 MindSkill AI. Bütün hüquqlar qorunur.",
+    "privacy": "Gizlilik",
+    "terms": "Şərtlər",
+    "cookies": "Cookies"
   }
 }

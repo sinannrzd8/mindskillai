@@ -1,7 +1,49 @@
 import { Brain, Globe, Briefcase, Code } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const footerColumns = [
+    { 
+      title: t('footer.product'), 
+      links: [
+        { label: t('footer.features'), href: '#features' },
+        { label: t('footer.pricing'), href: '/pricing' },
+        { label: t('footer.certifications'), href: '#' },
+        { label: t('footer.mentorship'), href: '#' },
+        { label: t('footer.enterprise'), href: '#' },
+      ] 
+    },
+    { 
+      title: t('footer.company'), 
+      links: [
+        { label: t('footer.about'), href: '/about' },
+        { label: t('footer.careers'), href: '#' },
+        { label: t('footer.blog'), href: '#' },
+        { label: t('footer.press'), href: '#' },
+        { label: t('footer.contact'), href: '#' },
+      ] 
+    },
+    { 
+      title: t('footer.resources'), 
+      links: [
+        { label: t('footer.documentation'), href: '#' },
+        { label: t('footer.helpCenter'), href: '#' },
+        { label: t('footer.community'), href: '#' },
+        { label: t('footer.api'), href: '#' },
+        { label: t('footer.status'), href: '#' },
+      ] 
+    },
+  ];
+
+  const footerLinks = [
+    { label: t('footer.privacy'), href: '#' },
+    { label: t('footer.terms'), href: '#' },
+    { label: t('footer.cookies'), href: '#' },
+  ];
+
   return (
     <footer className="border-t border-border/50 bg-card">
       <div className="container mx-auto px-4 py-16">
@@ -13,7 +55,7 @@ export default function Footer() {
               </div>
               <span className="font-display text-xl font-bold">MindSkill<span className="gradient-text">AI</span></span>
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">Learning that understands you. AI-powered adaptive education with emotional intelligence.</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('footer.tagline')}</p>
             <div className="mt-4 flex gap-3">
               {[Globe, Briefcase, Code].map((Icon, i) => (
                 <a key={i} href="#" className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground">
@@ -22,26 +64,22 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          {[
-            { title: "Product", links: ["Features", "Pricing", "Certifications", "Mentorship", "Enterprise"] },
-            { title: "Company", links: ["About", "Careers", "Blog", "Press", "Contact"] },
-            { title: "Resources", links: ["Documentation", "Help Center", "Community", "API", "Status"] },
-          ].map((col) => (
+          {footerColumns.map((col) => (
             <div key={col.title}>
               <h4 className="font-display font-semibold mb-4">{col.title}</h4>
               <ul className="space-y-2">
                 {col.links.map((link) => (
-                  <li key={link}><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{link}</a></li>
+                  <li key={link.label}><a href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">{link.label}</a></li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
         <div className="mt-12 border-t border-border/50 pt-8 flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-muted-foreground">© 2026 MindSkill AI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">{t('footer.copyright')}</p>
           <div className="flex gap-6">
-            {["Privacy", "Terms", "Cookies"].map((t) => (
-              <a key={t} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t}</a>
+            {footerLinks.map((link) => (
+              <a key={link.label} href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">{link.label}</a>
             ))}
           </div>
         </div>

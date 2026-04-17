@@ -8,8 +8,8 @@ export const pricingTiers: PricingTier[] = [
     id: 'basic',
     name: 'Starter',
     description: 'Perfect for beginners and small projects',
-    monthlyPrice: 3.99,
-    yearlyPrice: 39.90,
+    monthlyPrice: 1.99,
+    yearlyPrice: 19.90,
     features: [
       { id: 'users-1', name: 'Up to 3 team members', included: true },
       { id: 'api-1', name: '1,000 API calls/month', included: true },
@@ -29,8 +29,8 @@ export const pricingTiers: PricingTier[] = [
     id: 'pro',
     name: 'Pro',
     description: 'For growing teams and scalable applications',
-    monthlyPrice: 9.99,
-    yearlyPrice: 99.90,
+    monthlyPrice: 4.99,
+    yearlyPrice: 49.90,
     popular: true,
     badge: 'Most Popular',
     features: [
